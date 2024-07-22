@@ -49,11 +49,11 @@ namespace core {
         auto tt = std::chrono::system_clock::to_time_t(now);
         auto pTime = std::localtime(&tt);
 
-        logMsg = std::format("[{} / {:0>2}:{:0>2}:{:0>2}] <{}> {}", _logLevelTextMap[(int)level],
+        logMsg = std::format("[{} / {:0>2}:{:0>2}:{:0>2}] <{}> {}\n", _logLevelTextMap[(int)level],
                              pTime->tm_hour, pTime->tm_min, pTime->tm_sec, position, msg);
         gConsole.SetTextColor(_textColorMap[(int)level]);
         std::cout << logMsg << std::flush;
-        _foutHandle << logMsg << std::flush;
+        _foutHandle << logMsg;
     }
 
 } // namespace core

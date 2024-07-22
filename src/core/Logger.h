@@ -35,3 +35,31 @@ namespace core {
 #define LOG_INFO(...) core::gLogger.Log(core::LogLevel::INFO, __FUNCTION__, std::format(__VA_ARGS__))
 #define LOG_WARNING(...) core::gLogger.Log(core::LogLevel::WARN, __FUNCTION__, std::format(__VA_ARGS__))
 #define LOG_ERROR(...) core::gLogger.Log(core::LogLevel::ERR, __FUNCTION__, std::format(__VA_ARGS__))
+
+#define LOG_STATUS_COND(asserted_cond, ...)                                                                  \
+    do                                                                                                       \
+    {                                                                                                        \
+        if (!(asserted_cond))                                                                                \
+            core::gLogger.Log(core::LogLevel::STATUS, __FUNCTION__, std::format(__VA_ARGS__));               \
+    } while (0)
+
+#define LOG_INFO_COND(asserted_cond, ...)                                                                    \
+    do                                                                                                       \
+    {                                                                                                        \
+        if (!(asserted_cond))                                                                                \
+            core::gLogger.Log(core::LogLevel::INFO, __FUNCTION__, std::format(__VA_ARGS__));                 \
+    } while (0)
+
+#define LOG_WARNING_COND(asserted_cond, ...)                                                                 \
+    do                                                                                                       \
+    {                                                                                                        \
+        if (!(asserted_cond))                                                                                \
+            core::gLogger.Log(core::LogLevel::WARN, __FUNCTION__, std::format(__VA_ARGS__));                 \
+    } while (0)
+
+#define LOG_ERROR_COND(asserted_cond, ...)                                                                   \
+    do                                                                                                       \
+    {                                                                                                        \
+        if (!(asserted_cond))                                                                                \
+            core::gLogger.Log(core::LogLevel::ERR, __FUNCTION__, std::format(__VA_ARGS__));                  \
+    } while (0)
