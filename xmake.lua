@@ -5,7 +5,7 @@ add_requires("glfw", "stb", "glm", "yaml-cpp", "glad", "freetype")
 add_requires("imgui", {configs = { glfw = true, opengl3 = true }})
 
 target("untitled")
-    set_languages("c99", "cxx17")
+    set_languages("c99", "cxx20")
     set_kind("binary")
     set_warnings("all")
 
