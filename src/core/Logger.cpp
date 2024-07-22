@@ -4,8 +4,7 @@
 #include "Settings.h"
 
 #include <chrono>
-#include <cstdarg>
-#include <iomanip>
+#include <format>
 #include <iostream>
 
 namespace core {
@@ -22,7 +21,15 @@ namespace core {
             return;
         }
 
-        _logBuffer.fill('0');
+        _textColorMap[(int)LogLevel::STATUS] = 10;
+        _textColorMap[(int)LogLevel::INFO] = 11;
+        _textColorMap[(int)LogLevel::WARN] = 14;
+        _textColorMap[(int)LogLevel::ERR] = 12;
+
+        _logLevelTextMap[(int)LogLevel::STATUS] = "STATUS";
+        _logLevelTextMap[(int)LogLevel::INFO] = "INFO";
+        _logLevelTextMap[(int)LogLevel::WARN] = "WARN";
+        _logLevelTextMap[(int)LogLevel::ERR] = "ERR";
 
         LOG_STATUS("Successfully launched logger!");
     }
@@ -35,57 +42,18 @@ namespace core {
         }
     }
 
-    void Logger::Log(LogLevel level, const char *position, const char *fmt, ...)
+    void Logger::Log(LogLevel level, const char *position, const std::string &msg)
     {
-        static char buffer[4096];
-
-        _logBuffer.str("");
-
-        switch (level)
-        {
-        case LogLevel::STATUS:
-            gConsole.SetTextColor(10);
-            _logBuffer << "[STATUS / ";
-            break;
-        case LogLevel::INFO:
-            gConsole.SetTextColor(11);
-            _logBuffer << "[INFO / ";
-            break;
-        case LogLevel::WARN:
-            gConsole.SetTextColor(14);
-            _logBuffer << "[WARNING / ";
-            break;
-        case LogLevel::ERR:
-            gConsole.SetTextColor(12);
-            _logBuffer << "[ERROR / ";
-            break;
-        default:
-            break;
-        }
-
-        _PrintTime();
-
-        _logBuffer << "] <" << position << "> ";
-
-        std::va_list args;
-        va_start(args, fmt);
-        std::vsprintf(buffer, fmt, args);
-        va_end(args);
-        _logBuffer << buffer << '\n';
-
-        std::string logMsg = _logBuffer.str();
-        std::cout << logMsg << std::flush;
-        _foutHandle << logMsg << std::flush;
-    }
-
-    void Logger::_PrintTime()
-    {
+        std::string logMsg;
         auto now = std::chrono::system_clock::now();
         auto tt = std::chrono::system_clock::to_time_t(now);
         auto pTime = std::localtime(&tt);
 
-        _logBuffer << std::setw(2) << pTime->tm_hour << ':' << std::setw(2) << pTime->tm_min << ':'
-                   << std::setw(2) << pTime->tm_sec;
+        logMsg = std::format("[{} / {:0>2}:{:0>2}:{:0>2}] <{}> {}", _logLevelTextMap[(int)level],
+                             pTime->tm_hour, pTime->tm_min, pTime->tm_sec, position, msg);
+        gConsole.SetTextColor(_textColorMap[(int)level]);
+        std::cout << logMsg << std::flush;
+        _foutHandle << logMsg << std::flush;
     }
 
 } // namespace core

@@ -1,7 +1,7 @@
 #pragma once
 
+#include <format>
 #include <fstream>
-#include <sstream>
 
 namespace core {
 
@@ -19,21 +19,19 @@ namespace core {
         Logger();
         ~Logger();
 
-        void Log(LogLevel level, const char *position, const char *fmt, ...);
-
-    private:
-        void _PrintTime();
+        void Log(LogLevel level, const char *position, const std::string &msg);
 
     private:
         std::ofstream _foutHandle;
-        std::stringstream _logBuffer;
+        int _textColorMap[4];
+        std::string _logLevelTextMap[4];
     };
 
     extern Logger gLogger;
 
 } // namespace core
 
-#define LOG_STATUS(...) core::gLogger.Log(core::LogLevel::STATUS, __FUNCTION__, __VA_ARGS__)
-#define LOG_INFO(...) core::gLogger.Log(core::LogLevel::INFO, __FUNCTION__, __VA_ARGS__)
-#define LOG_WARNING(...) core::gLogger.Log(core::LogLevel::WARN, __FUNCTION__, __VA_ARGS__)
-#define LOG_ERROR(...) core::gLogger.Log(core::LogLevel::ERR, __FUNCTION__, __VA_ARGS__)
+#define LOG_STATUS(...) core::gLogger.Log(core::LogLevel::STATUS, __FUNCTION__, std::format(__VA_ARGS__))
+#define LOG_INFO(...) core::gLogger.Log(core::LogLevel::INFO, __FUNCTION__, std::format(__VA_ARGS__))
+#define LOG_WARNING(...) core::gLogger.Log(core::LogLevel::WARN, __FUNCTION__, std::format(__VA_ARGS__))
+#define LOG_ERROR(...) core::gLogger.Log(core::LogLevel::ERR, __FUNCTION__, std::format(__VA_ARGS__))
