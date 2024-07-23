@@ -2,6 +2,8 @@
 
 namespace core {
 
+    Coordinator gCoordinator;
+
     void Coordinator::Init()
     {
         _componentManager = std::make_unique<ComponentManager>();
