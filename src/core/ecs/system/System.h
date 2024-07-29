@@ -14,12 +14,13 @@ namespace core {
         virtual ~System() = default;
 
         virtual void Init() = 0;
+        virtual void InitSignatures() = 0;
         virtual void Shutdown() = 0;
 
         virtual void Update(float dt) = 0;
         virtual int GetUpdatePriority() const = 0;
 
-    private:
+    protected:
         std::set<Entity> _entities;
     };
 

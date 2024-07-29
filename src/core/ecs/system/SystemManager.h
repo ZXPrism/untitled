@@ -60,6 +60,8 @@ namespace core {
         _systems.insert({typeName, system});
         _updateAuxMap.insert({typeName, SystemWrapper(system.get())});
 
+        LOG_STATUS("Successfully registered system <{}> !", typeName);
+
         return system;
     }
 

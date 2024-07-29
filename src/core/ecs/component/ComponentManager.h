@@ -49,6 +49,8 @@ namespace core {
     template <typename T>
     void ComponentManager::RegisterComponent()
     {
+        // static_assert(std::is_trivial_v<T>, "This component is non-trivial!");
+
         const char *typeName = typeid(T).name();
 
         LOG_ERROR_COND(_componentTypes.find(typeName) == _componentTypes.end(),
@@ -64,6 +66,8 @@ namespace core {
 
         // Increase the value so that the next component registered will be different
         ++_nextComponentType;
+
+        LOG_STATUS("Successfully registered component <{}> !", typeName);
     }
 
     template <typename T>

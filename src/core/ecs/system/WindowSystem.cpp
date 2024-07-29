@@ -1,5 +1,6 @@
 #include "WindowSystem.h"
 
+#include "core/Logger.h"
 #include "core/Settings.h"
 
 #include <chrono>
@@ -21,12 +22,20 @@ namespace core {
                                          nullptr, nullptr);
         glfwMakeContextCurrent(_windowHandle);
         glfwSwapInterval(0);
+
+        LOG_STATUS("WindowSystem inited.");
+    }
+
+    void WindowSystem::InitSignatures()
+    {
     }
 
     void WindowSystem::Shutdown()
     {
         glfwDestroyWindow(_windowHandle);
         glfwTerminate();
+
+        LOG_STATUS("WindowSystem shutdown.");
     }
 
     void WindowSystem::Update(float dt)
@@ -52,6 +61,9 @@ namespace core {
         float realDeltaTime =
             std::chrono::duration_cast<std::chrono::microseconds>(_tp2 - _tp1).count() / 1000000.0;
         _deltaTime = DT_FILTER_COFF * _deltaTime + (1 - DT_FILTER_COFF) * realDeltaTime;
+
+        glfwSetWindowTitle(_windowHandle,
+                           std::format("{} [FPS: {}]", DEFAULT_WINDOW_TITLE, int(1.0 / _deltaTime)).c_str());
     }
 
     float WindowSystem::GetDeltaTime() const

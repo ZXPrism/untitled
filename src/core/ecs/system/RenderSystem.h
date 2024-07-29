@@ -2,13 +2,12 @@
 
 #include "System.h"
 
-#include <chrono>
-
-struct GLFWwindow;
+#include "core/resource/Shader.h"
+#include "core/resource/VertexBuffer.h"
 
 namespace core {
 
-    class WindowSystem : public System
+    class RenderSystem : public System
     {
     public:
         virtual void Init() override;
@@ -21,14 +20,12 @@ namespace core {
         void BeginFrame();
         void EndFrame();
 
-        float GetDeltaTime() const;
-        bool WindowShouldClose() const;
+    private:
+        void InitModels();
 
     private:
-        GLFWwindow *_windowHandle;
-
-        std::chrono::steady_clock::time_point _tp1, _tp2;
-        float _deltaTime = 0.0f;
+        Shader _colorPassShader; // ONLY FOR TEST, it should be loaded through ResourceSystem
+        VertexBuffer _ModelQuad;
     };
 
 } // namespace core
