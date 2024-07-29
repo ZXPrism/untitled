@@ -17,3 +17,13 @@ A hobby **game** project start on 2024.07.21.
 If you follow the instructions above and everything is fine, an executable named `untitled.exe` should appear in the folder `bin`, along with the folder `asset` containing game resources.
 
 You can now launch the executable by double-clicking it.
+
+## External Libs / Code Fragments Used
+- [GLFW](https://www.glfw.org/)
+- [GLAD](https://github.com/Dav1dde/glad)
+- [GLM](https://github.com/g-truc/glm)
+- [Dear ImGui](https://github.com/ocornut/imgui)
+- ECS framework (copied from my [CG course project](https://github.com/Matteotti/ZJU-CG-Lab))
+  - Idea: [一文看懂ECS架构](https://zhuanlan.zhihu.com/p/618971664)
+  - Implementation: GitHub [@Matteotti](https://github.com/Matteotti)
+  - Improvement: me
